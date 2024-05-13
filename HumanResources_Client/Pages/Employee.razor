@@ -1,0 +1,45 @@
+﻿@page "/employee"
+@inject EmployeeService _employeeService
+<h3>Employee</h3>
+
+@if (Employees == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>EMP ID</th>
+                <th>Id</th>
+                <th>TItle</th>
+                <th>Surname</th>
+                <th>TOtherName</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Employees)
+            {
+                <tr>
+                    <td>@employee.EmployeeID</td>
+                    <td>@employee.StaffIDNo</td>
+                    <td>@employee.Title</td>
+                    <td>@employee.Surname</td>
+                    <td>@employee.OtherNames</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    public IEnumerable<EmployeeDTO> Employees { get; set; } = new List<EmployeeDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Employees = await _employeeService.GetAll();
+    }
+}

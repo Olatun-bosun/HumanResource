@@ -1,0 +1,40 @@
+﻿@inject CustomerService _customerService
+
+<h3>Customer</h3>
+@if (Customers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Customers)
+            {
+                <tr>
+                    <td>@employee.Id</td>
+                    <td>@employee.Name</td>
+                   
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    public IEnumerable<CustomerDTO> Customers { get; set; } = new List<CustomerDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Customers = await _customerService.GetAllCustomersAsync();
+    }
+}
