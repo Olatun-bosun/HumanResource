@@ -4,6 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+  	  <LangVersion>preview</LangVersion>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +26,13 @@
 
   <ItemGroup>
     <Folder Include="Service\IService\" />
+  
   </ItemGroup>
+	<ItemGroup>
+	  <None Include="wwwroot\index.html" />
+	  <None Include="wwwroot\styles\blazor.css" />
+	  <None Include="wwwroot\styles\sidebar.css" />
+	  <None Include="wwwroot\styles\spinkit.min.css" />
+	</ItemGroup>
 
 </Project>

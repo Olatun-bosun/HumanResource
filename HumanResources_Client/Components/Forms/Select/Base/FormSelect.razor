@@ -1,0 +1,13 @@
+﻿@typeparam TModel
+
+<select>
+    <option>Option Label</option>
+    <option>Option Label 2</option>
+</select>
+
+@code {
+    [Parameter] public IList<TModel>? Model { get; set; }
+    [Parameter] public string? OptionValue { get; set; }
+    [Parameter] public string? OptionLabel { get; set; }
+    [Parameter] public RenderFragment<TModel?>? Option { get; set; }
+}

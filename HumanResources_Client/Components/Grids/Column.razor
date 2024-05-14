@@ -1,0 +1,17 @@
+﻿@typeparam TItem
+
+@if (Item == null) 
+{
+    <th style="width: @Width">@Header</th>
+}
+else 
+{
+    <td>@ChildContent</td>
+}
+
+@code {
+    [CascadingParameter] public TItem? Item { get; set; }
+    [Parameter] public string? Header { get; set; }
+    [Parameter] public string? Width { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

@@ -1,0 +1,19 @@
+﻿@if (IsValid())
+{
+    <i class="bi bi-check-circle-fill text-success"></i>
+}
+else
+{
+    <i class="bi bi-x-circle-fill text-danger"></i>
+}
+
+@code {
+    [Parameter] public string? Status { get; set; }
+    [Parameter] public string? ValidText { get; set; } = "true";
+
+    private bool IsValid()
+    {
+        return string.Equals(Status, ValidText, 
+            StringComparison.OrdinalIgnoreCase);
+    }
+}

@@ -1,0 +1,95 @@
+﻿@attribute [CascadingTypeParameter(nameof(TItem))]
+@typeparam TItem
+
+@if (Items == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (Items.Count == 0)
+{
+    <p><em>No items found</em></p>
+}
+else if (Columns == null)
+{
+    <p><em>No columns were specified</em></p>
+}
+else
+{
+    <table class="table table-hover align-middle mb-0">
+        <thead class="table-primary bg-primary-subtle">
+            <tr>
+                @Columns(default)
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (TItem item in Items)
+            {
+            <tr class="@GetSelectedCss(item)" @onclick="e => ToggleRow(item)">
+                <CascadingValue Value="item">
+                    @Columns(item)
+                </CascadingValue>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<style>
+    .table {
+        cursor: default !important;
+    }
+
+    .table th {
+        text-transform: uppercase;
+        font-weight: 500;
+    }
+
+    .table td {
+        min-height: 200px !important;
+    }
+
+    .table-select-row td {
+        background-color: navy !important;
+        color: white !important;
+    }
+</style>
+
+@code {
+    // [Parameter] public PageState? PageState { get; set; }
+
+    [Parameter] public IList<TItem>? Items { get; set; }
+    [Parameter] public RenderFragment<TItem?>? Columns { get; set; }
+    [Parameter] public bool AllowSelect { get; set; } = true;
+    [Parameter] public bool SelectMultiple { get; set; } = false;
+    [Parameter] public EventCallback<TItem> OnSelectedItemChanged { get; set; }
+    //Public Property
+    public List<TItem> SelectedItems => selectedItems;
+
+    private List<TItem> selectedItems = [];
+
+    private async Task ToggleRow(TItem item)
+    {
+        if (AllowSelect == false)
+            return;
+
+        if (selectedItems.Contains(item))
+        {
+            selectedItems.Remove(item);
+            return;
+        }
+
+        if (!SelectMultiple) //only one allowed
+            selectedItems.Clear();
+
+        selectedItems.Add(item);
+        await OnSelectedItemChanged.InvokeAsync(item);
+    }
+
+    private string? GetSelectedCss(TItem item)
+    {
+        if (AllowSelect && selectedItems.Contains(item))
+            return "table-select-row";
+        return null;
+    }
+
+}
